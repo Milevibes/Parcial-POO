@@ -31,8 +31,26 @@ public class Operations {
                     if (!encontrado){
                         System.out.println("No se encontro el Pokemon buscado");
                     }
+                    buffer.close();
+
                  } catch (Exception e) {
                  System.out.println(e.getMessage());
+            }
+        }
+        public static void readPokemons() {
+        try {
+            FileReader lector = new FileReader("Pokemon.csv");
+            BufferedReader buffer = new BufferedReader(lector);
+            String PokemonReader;
+
+            while ((PokemonReader = buffer.readLine()) != null) {
+                System.out.println(PokemonReader);
+            }
+
+            buffer.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             }
         }
     }
