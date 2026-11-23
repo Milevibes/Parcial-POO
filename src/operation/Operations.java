@@ -30,7 +30,7 @@ public class Operations {
                         }
                     }
                     if (!encontrado){
-                        System.out.println("No se encontro el clases.Pokemon buscado");
+                        System.out.println("No se encontro el Pokemon buscado");
                     }
                     buffer.close();
 

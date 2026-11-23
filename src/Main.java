@@ -11,8 +11,8 @@ public class Main {
 
         do {
             System.out.println("\n********MENÚ PRINCIPAL*******");
-            System.out.println("1. Menú Pokemons");
-            System.out.println("2. Menú Trainers");
+            System.out.println("1. Menú Pokemones");
+            System.out.println("2. Menú Entrenadores");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             seleccionarOpcion = leer.nextInt();
@@ -36,10 +36,10 @@ public class Main {
     public static void menuPokemon(Scanner leer) {
         int opcion;
         do {
-            System.out.println("\n*****MENÚ POKEMONS*****");
+            System.out.println("\n*****MENÚ POKEMONES*****");
             System.out.println("1. Crear Pokemon");
             System.out.println("2. Buscar Pokemon");
-            System.out.println("3. Mostrar todos los Pokemons");
+            System.out.println("3. Mostrar todos los Pokemones");
             System.out.println("4. Borrar Pokemon");
             System.out.println("0. Volver al Menú Principal");
             System.out.print("Seleccione una opción: ");
@@ -69,7 +69,7 @@ public class Main {
         public static void menuTrainers(Scanner leer) {
             int opcion;
             do {
-                System.out.println("\n*****MENÚ TRAINERS*****");
+                System.out.println("\n*****MENÚ ENTRENADORES*****");
                 System.out.println("1. Crear Entrenador");
                 System.out.println("2. Buscar Entrenador");
                 System.out.println("3. Mostrar todos los Entrenadores");
@@ -82,7 +82,15 @@ public class Main {
                     case 1:
                         newTrainer();
                         break;
-
+                    case 2:
+                        searchTrainer();
+                        break;
+                    case 3:
+                        readTrainers();
+                        break;
+                    case 4:
+                        deleteTrainer();
+                        break;
                     case 0:
                         break;
                     default:
@@ -128,5 +136,17 @@ public class Main {
         }
         OperationsTrainers.saveTrainer(name_trainer, plantilla);
     }
-
+    public static void searchTrainer() {
+        Scanner leer = new Scanner(System.in);
+        System.out.println("Ingrese el Entrenador a buscar");
+        OperationsTrainers.readOneTrainer(leer.next());
+    }
+    public static void readTrainers() {
+        OperationsTrainers.readTrainers();
+    }
+    public static void deleteTrainer(){
+        Scanner leer = new Scanner(System.in);
+        System.out.println("Ingrese el Entrenador a eliminar");
+        OperationsTrainers.deleteTrainer(leer.next());
+    }
 }

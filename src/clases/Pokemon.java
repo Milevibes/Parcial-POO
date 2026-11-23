@@ -1,5 +1,9 @@
 package clases;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 public class Pokemon {
     private int id ;
     private String number;
@@ -9,7 +13,7 @@ public class Pokemon {
     public String trainer;
 
     public Pokemon (String name, String number, String type, String level){
-        this.id = (int) (Math.random()*900) +100;
+        this.id = (int) (Math.random() * 100) + 1;
         this.name = name;
         this.number = number;
         this.type = type;
@@ -18,7 +22,6 @@ public class Pokemon {
     }
     public Pokemon()
     {}
-
     public String PokemonToCSV()
     {
         return id + "," + name + "," + number +"," + type + "," + level + "," + trainer;
