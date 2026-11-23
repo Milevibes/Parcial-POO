@@ -1,4 +1,7 @@
-import java.io.File;
+import clases.Pokemon;
+import operation.Operations;
+import operation.OperationsTrainers;
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +11,7 @@ public class Main {
 
         do {
             System.out.println("\n********MENÚ PRINCIPAL*******");
-            System.out.println("1. Menú Pokemon");
+            System.out.println("1. Menú Pokemons");
             System.out.println("2. Menú Trainers");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
@@ -33,12 +36,11 @@ public class Main {
     public static void menuPokemon(Scanner leer) {
         int opcion;
         do {
-            System.out.println("\n*****MENÚ POKEMONES*****");
+            System.out.println("\n*****MENÚ POKEMONS*****");
             System.out.println("1. Crear Pokemon");
             System.out.println("2. Buscar Pokemon");
-            System.out.println("3. Mostrar todos los Pokemones");
-            System.out.println("4. Actualizar Pokemon");
-            System.out.println("5. Borrar Pokemon");
+            System.out.println("3. Mostrar todos los Pokemons");
+            System.out.println("4. Borrar Pokemon");
             System.out.println("0. Volver al Menú Principal");
             System.out.print("Seleccione una opción: ");
             opcion = leer.nextInt();
@@ -52,6 +54,9 @@ public class Main {
                     break;
                 case 3:
                     showAllPokemons();
+                    break;
+                case 4:
+                    deletePokemon();
                     break;
                 case 0:
                     break;
@@ -68,8 +73,7 @@ public class Main {
                 System.out.println("1. Crear Entrenador");
                 System.out.println("2. Buscar Entrenador");
                 System.out.println("3. Mostrar todos los Entrenadores");
-                System.out.println("4. Actualizar Entrenador");
-                System.out.println("5. Borrar Entrenador");
+                System.out.println("4. Borrar Entrenador");
                 System.out.println("0. Volver al Menú Principal");
                 System.out.print("Seleccione una opción: ");
                 opcion = leer.nextInt();
@@ -90,7 +94,14 @@ public class Main {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el nombre del Pokemon");
         String name_pokemon = leer.nextLine();
-        Operations.savePokemon(new Pokemon(name_pokemon));
+        System.out.println("Ingrese el número del Pokemon");
+        String number = leer.nextLine();
+        System.out.println("Ingrese el tipo del Pokemon");
+        String type = leer.nextLine();
+        System.out.println("Ingrese el nivel del Pokemon");
+        String level = leer.nextLine();
+
+        Operations.savePokemon(new Pokemon(name_pokemon, number, type, level));
     }
     public static void searchPokemon() {
         Scanner leer = new Scanner(System.in);
@@ -100,10 +111,22 @@ public class Main {
     public static void showAllPokemons() {
         Operations.readPokemons();
     }
+    public static void deletePokemon(){
+        Scanner leer = new Scanner(System.in);
+        System.out.println("Ingrese el Pokemon a eliminar");
+        Operations.deletePokemon(leer.next());
+    }
     public static void newTrainer() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el nombre del Entrenador");
-        String name_trainer = leer.nextLine();
-        OperationsTrainers.saveTrainer();
+        String name_trainer = leer.next();
+
+        String[] plantilla = new String[6];
+        for (int i = 0; i < plantilla.length; i++) {
+            System.out.println("Ingrese el nombre del Pokemon " + (i + 1) + ":");
+            plantilla[i] = leer.next();
+        }
+        OperationsTrainers.saveTrainer(name_trainer, plantilla);
     }
+
 }
