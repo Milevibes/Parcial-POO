@@ -1,11 +1,40 @@
 import clases.Pokemon;
-import operation.Operations;
+import clases.Trainer;
+import frontend.InicioModerno;
+import operation.OperationsPokemon;
 import operation.OperationsTrainers;
 
+import java.awt.EventQueue;
+import java.util.List;
 import java.util.Scanner;
+import javax.swing.UIManager;
 
 public class Main {
     public static void main(String[] args) {
+        iniciarInterfaz();
+    }
+
+    private static void iniciarInterfaz() {
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        EventQueue.invokeLater(() -> {
+            try {
+                new InicioModerno().setVisible(true);
+            } catch (Exception e) {
+                System.out.println("No se pudo abrir la interfaz: " + e.getMessage());
+            }
+        });
+    }
+
+    public static void menuConsola() {
         Scanner leer = new Scanner(System.in);
         int seleccionarOpcion;
 
@@ -16,6 +45,7 @@ public class Main {
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             seleccionarOpcion = leer.nextInt();
+            leer.nextLine();
 
             switch (seleccionarOpcion) {
                 case 1:
@@ -44,6 +74,7 @@ public class Main {
             System.out.println("0. Volver al Menú Principal");
             System.out.print("Seleccione una opción: ");
             opcion = leer.nextInt();
+            leer.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -63,41 +94,43 @@ public class Main {
                 default:
                     System.out.println("Opción NO válida.");
             }
-        } while(opcion !=0);
+        } while (opcion != 0);
     }
 
-        public static void menuTrainers(Scanner leer) {
-            int opcion;
-            do {
-                System.out.println("\n*****MENÚ ENTRENADORES*****");
-                System.out.println("1. Crear Entrenador");
-                System.out.println("2. Buscar Entrenador");
-                System.out.println("3. Mostrar todos los Entrenadores");
-                System.out.println("4. Borrar Entrenador");
-                System.out.println("0. Volver al Menú Principal");
-                System.out.print("Seleccione una opción: ");
-                opcion = leer.nextInt();
+    public static void menuTrainers(Scanner leer) {
+        int opcion;
+        do {
+            System.out.println("\n*****MENÚ ENTRENADORES*****");
+            System.out.println("1. Crear Entrenador");
+            System.out.println("2. Buscar Entrenador");
+            System.out.println("3. Mostrar todos los Entrenadores");
+            System.out.println("4. Borrar Entrenador");
+            System.out.println("0. Volver al Menú Principal");
+            System.out.print("Seleccione una opción: ");
+            opcion = leer.nextInt();
+            leer.nextLine();
 
-                switch (opcion) {
-                    case 1:
-                        newTrainer();
-                        break;
-                    case 2:
-                        searchTrainer();
-                        break;
-                    case 3:
-                        readTrainers();
-                        break;
-                    case 4:
-                        deleteTrainer();
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        System.out.println("Opción NO válida.");
-                }
-            } while(opcion !=0);
-        }
+            switch (opcion) {
+                case 1:
+                    newTrainer();
+                    break;
+                case 2:
+                    searchTrainer();
+                    break;
+                case 3:
+                    readTrainers();
+                    break;
+                case 4:
+                    deleteTrainer();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Opción NO válida.");
+            }
+        } while (opcion != 0);
+    }
+
     public static void newPokemon() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el nombre del Pokemon");
@@ -109,21 +142,35 @@ public class Main {
         System.out.println("Ingrese el nivel del Pokemon");
         String level = leer.nextLine();
 
-        Operations.savePokemon(new Pokemon(name_pokemon, number, type, level));
+        boolean guardado = OperationsPokemon.savePokemon(new Pokemon(name_pokemon, number, type, level));
+        System.out.println(guardado ? "Pokemon guardado" : "No se pudo guardar el Pokemon");
     }
+
     public static void searchPokemon() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el Pokemon a buscar");
-        Operations.readOnePokemon(leer.next());
+        Pokemon pokemon = OperationsPokemon.readOnePokemon(leer.next());
+        System.out.println(pokemon != null ? pokemon : "No se encontro el Pokemon");
     }
+
     public static void showAllPokemons() {
-        Operations.readPokemons();
+        List<Pokemon> pokemones = OperationsPokemon.readPokemons();
+        if (pokemones.isEmpty()) {
+            System.out.println("No hay Pokemones guardados");
+            return;
+        }
+        for (Pokemon pokemon : pokemones) {
+            System.out.println(pokemon);
+        }
     }
-    public static void deletePokemon(){
+
+    public static void deletePokemon() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el Pokemon a eliminar");
-        Operations.deletePokemon(leer.next());
+        boolean borrado = OperationsPokemon.deletePokemon(leer.next());
+        System.out.println(borrado ? "Pokemon eliminado" : "No se encontro el Pokemon");
     }
+
     public static void newTrainer() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el nombre del Entrenador");
@@ -134,17 +181,28 @@ public class Main {
             System.out.println("Ingrese el nombre del Pokemon " + (i + 1) + ":");
             plantilla[i] = leer.next();
         }
-        OperationsTrainers.saveTrainer(name_trainer, plantilla);
+        //OperationsTrainers.saveTrainer(name_trainer, plantilla);
     }
+
     public static void searchTrainer() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el Entrenador a buscar");
-        OperationsTrainers.readOneTrainer(leer.next());
+        Trainer trainer = OperationsTrainers.readOneTrainer(leer.next());
+        System.out.println(trainer != null ? trainer : "No se encontro el Entrenador");
     }
+
     public static void readTrainers() {
-        OperationsTrainers.readTrainers();
+        List<Trainer> entrenadores = OperationsTrainers.readTrainers();
+        if (entrenadores.isEmpty()) {
+            System.out.println("No hay Entrenadores guardados");
+            return;
+        }
+        for (Trainer trainer : entrenadores) {
+            System.out.println(trainer);
+        }
     }
-    public static void deleteTrainer(){
+
+    public static void deleteTrainer() {
         Scanner leer = new Scanner(System.in);
         System.out.println("Ingrese el Entrenador a eliminar");
         OperationsTrainers.deleteTrainer(leer.next());
