@@ -53,25 +53,30 @@ public class OperationsTrainers {
     }
 
     public static List<Trainer> readTrainers() {
-        try {
-            List<Trainer> currentTrainers = new ArrayList();
-            FileReader lector = new FileReader("Trainer.csv");
-            BufferedReader buffer = new BufferedReader(lector);
-            String TrainerReader;
-            while ((TrainerReader = buffer.readLine()) != null) {
-                String[] tempLine = TrainerReader.split(",");
-                Trainer temp = new Trainer();
-                temp.setId(tempLine[0]);
-                temp.setTrainerName(tempLine[1]);
-                temp.setMedallas(Integer.parseInt(tempLine[2]));
-                currentTrainers.add(temp);
-            }
-            buffer.close();
-            return currentTrainers;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        List<Trainer> entrenadores = new ArrayList<>();
+        File archivo = new File("Trainer.csv");
+
+        // Si el archivo aún no existe, devolvemos la lista vacía
+        if (!archivo.exists()) {
+            return entrenadores;
         }
-        return List.of();
+
+        try (BufferedReader buffer = new BufferedReader(
+                new InputStreamReader(new FileInputStream(archivo), StandardCharsets.UTF_8))) {
+
+            String linea;
+            while ((linea = buffer.readLine()) != null) {
+                Trainer trainer = parseTrainer(linea);   // convierte la línea en Trainer con su plantilla
+                if (trainer != null) {                   // ignora líneas vacías o dañadas
+                    entrenadores.add(trainer);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer: " + e.getMessage());
+        }
+
+        return entrenadores;
     }
     private static List<String> readLines() {
         List<String> lineas = new ArrayList<>();

@@ -26,7 +26,7 @@ public class Pokemon {
         this.id = id;
     }
     public void setId() {
-        this.id = UUID.randomUUID().toString().substring(0, 8);
+        this.id = UUID.randomUUID().toString().substring(0, 4);
     }
 
     public String getName() {

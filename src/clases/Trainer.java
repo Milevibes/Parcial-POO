@@ -36,7 +36,7 @@ public class Trainer {
     }
 
     public void setId() {
-        this.id = UUID.randomUUID().toString().substring(0, 8);
+        this.id = UUID.randomUUID().toString().substring(0, 3);
     }
 
     public String getTrainerName() {
