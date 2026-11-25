@@ -12,7 +12,7 @@ Este proyecto corresponde al parcial en pareja de Programación Orientada a Obje
 
 ## 2. Reglas
 - **Cantidad de Pokemones por Entrenador:** un entrenador puede tener la cantidad de Pokemones que desee, sin límite máximo ni restricciones adicionales.
-- **Relación entre entidades:** relación 1 a N entre "Trainer" y "Pokemon" (un entrenador puede tener múltiples pokemones asociados y un pokemon puede estar vinculado a un entrenador o sin entrenador asignado).
+- **Relación entre entidades:** relación N a M entre "Trainer" y "Pokemon" (un entrenador puede tener múltiples Pokemones asociados y un Pokemon asimismo puede estar vinculado a muchos Entrenadores o sin entrenador asignado si así se desea).
 - **Sincronización al eliminar:** al eliminar un Pokemon, se actualiza su referencia en los entrenadores para mantener coherencia entre "Pokemon.csv" y "Trainer.csv".
 
 ## 3. Modelo de clases y estructura del proyecto
